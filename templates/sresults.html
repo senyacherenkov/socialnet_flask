@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}    
+    {% for pid in profile_ids %}
+        <h2> {{ fname }} {{ sname }} </h2>
+        {% if pid == user_id %}
+        <a href="#">
+            <h2>It's you</h2>
+        </a>
+        {% else %}
+            {% if pid not in friend_ids %}
+                <form method="post">
+                    <div class="form-group">
+                        <input type="hidden" name="friendId" 
+                            class="form-control"
+                            value="{{pid}}"></input>
+                    </div>         
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">add friend</button>
+                    </div>
+                </form>
+            {% endif %}
+        {% endif %}
+        
+        {% if pid in friend_ids%}
+        <a href="#">
+            <h2>It's your friend</h2>
+        </a>
+        {% endif %}
+    {% endfor %}   
+    
+{% endblock %}

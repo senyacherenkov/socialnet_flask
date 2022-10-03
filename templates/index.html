@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} Welcome to Social Net {% endblock %}</h1>
+    <form method="post">
+        <div class="form-group">
+            <label for="login">Login</label>
+            <input type="text" name="login"
+                   placeholder="login" class="form-control"
+                   value="{{ request.form['login'] }}"></input>
+        </div>
+    
+        <div class="form-group">
+            <label for="password">Password</label>
+            <textarea name="password" placeholder="password"
+                      type="password"
+                      class="form-control">{{ request.form['password'] }}</textarea>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Sign in</button>
+        </div>
+    </form>
+    
+    <a href=registration ><button class=grey style="height:75px;width:150px">sign up</button></a>
+
+
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} Fill your personal data {% endblock %}</h1>
+    <form method="post">        
+        <div class="form-group">
+            <label for="login">Login </label>
+            <input type="text" name="login" 
+                    placeholder="Post login" class="form-control"
+                    value="{{ request.form['login'] }}"></input>
+        </div>
+        <div>
+            <label for="password">Password </label>
+            <input type="text" name="password" 
+                    placeholder="Post password" class="form-control"
+                    value="{{ request.form['password'] }}"></input>
+        </div>
+        <div>
+            <label for="fname">First name </label>
+            <input type="text" name="fname" 
+                    placeholder="Post fname" class="form-control"
+                    value="{{ request.form['fname'] }}"></input>
+        </div>
+        <div>
+            <label for="sname">Second name </label>
+            <input type="text" name="sname" 
+                    placeholder="Post sname" class="form-control"
+                    value="{{ request.form['sname'] }}"></input>
+        </div>
+        <div>
+            <label for="gender">Gender </label>
+            <input type="text" name="gender" 
+                    placeholder="Post gender" class="form-control"
+                    value="{{ request.form['gender'] }}"></input>
+        </div>
+        <div>
+            <label for="age">Age </label>
+            <input type="text" name="age" 
+                    placeholder="Post age" class="form-control"
+                    value="{{ request.form['age'] }}"></input>
+        </div>
+        <div>
+            <label for="hobbies">Hobbies </label>
+            <input type="text" name="hobbies" 
+                    placeholder="Post hobbies" class="form-control"
+                    value="{{ request.form['hobbies'] }}"></input>
+        </div>
+        <div>
+            <label for="city">City </label>
+            <input type="text" name="city" 
+                    placeholder="Post city" class="form-control"
+                    value="{{ request.form['city'] }}"></input>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Register</button>
+        </div>
+    </form>
+{% endblock %}
