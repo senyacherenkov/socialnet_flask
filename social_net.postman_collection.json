@@ -1,0 +1,159 @@
+{
+	"info": {
+		"_postman_id": "7a98436d-cccc-4969-bc35-9fab5472c6c3",
+		"name": "New Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23767379"
+	},
+	"item": [
+		{
+			"name": "sign in",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "1",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "ars",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "localhost:5000",
+					"host": [
+						"localhost"
+					],
+					"port": "5000"
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "show profile",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000?profile=1",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"query": [
+						{
+							"key": "profile",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "registration",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "1",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "ars",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "fname",
+							"value": "ars",
+							"type": "text"
+						},
+						{
+							"key": "sname",
+							"value": "cherenkov",
+							"type": "text"
+						},
+						{
+							"key": "city",
+							"value": "spb",
+							"type": "text"
+						},
+						{
+							"key": "gender",
+							"value": "male",
+							"type": "text"
+						},
+						{
+							"key": "age",
+							"value": "32",
+							"type": "text"
+						},
+						{
+							"key": "hobby",
+							"value": "learning",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:5000",
+					"host": [
+						"localhost"
+					],
+					"port": "5000"
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add friend",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000?addfriend=true&fname=vasya&sname=pupkin",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"query": [
+						{
+							"key": "addfriend",
+							"value": "true"
+						},
+						{
+							"key": "fname",
+							"value": "vasya"
+						},
+						{
+							"key": "sname",
+							"value": "pupkin"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
