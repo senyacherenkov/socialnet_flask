@@ -50,5 +50,10 @@ def execute_list_query(connection, sql, val):
     except Error as err:
         print(f"Error: '{err}'")
 
+conn = create_db_connection("localhost", "root", "qweRtY1576")
+if (conn):
+    execute_query(conn, "select count(*) from creds")
+else:
+    print("failed to connect")
 # conn = create_db_connection("localhost", "root", "1")
 # execute_file(conn, "db_init.sql")
