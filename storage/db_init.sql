@@ -2,7 +2,7 @@ DROP DATABASE IF EXISTS social_net;
 CREATE DATABASE social_net;
 USE social_net;
 -- GRANT USAGE ON *.* TO 'flask_server'@'localhost';
-DROP USER 'flask_server'@'localhost';
+DROP USER IF EXISTS 'flask_server'@'localhost';
 FLUSH PRIVILEGES;
 CREATE USER 'flask_server'@'localhost' IDENTIFIED BY 'otus';
 GRANT ALL PRIVILEGES ON * . * TO 'flask_server'@'localhost';
