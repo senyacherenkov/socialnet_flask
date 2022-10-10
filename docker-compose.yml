@@ -13,3 +13,6 @@ services:
     build: engine
     depends_on:
       - mysql
+    links:
+      - mysql
+    command: ["./wait_for_mysql.sh", "mysql", "3306", "qwerty", "social_net", "python3", "sql.py"]
