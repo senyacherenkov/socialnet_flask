@@ -16,4 +16,4 @@ ADD . /opt/social_net
 ENV FLASK_APP=__init__
 ENV FLASK_ENV=development
 ENV PYTHONPATH='.'
-RUN flask run
+#RUN flask run

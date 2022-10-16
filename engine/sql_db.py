@@ -51,5 +51,5 @@ def execute_list_query(connection, sql, val):
     except Error as err:
         print(f"Error: '{err}'")
 
-conn = create_db_connection("localhost", "root", "1")
-execute_file(conn, "db_init.sql")
+conn = create_db_connection("mysql", "root", "qwerty")
+#execute_file(conn, "db_init.sql")
