@@ -9,7 +9,8 @@ def create_db_connection(host_name, user_name, user_password, db_name = ""):
             host=host_name,
             user=user_name,
             passwd=user_password,
-            database=db_name
+            database=db_name,
+            port=3306
         )
         print("MySQL Database connection successful")
     except Error as err:
@@ -51,4 +52,4 @@ def execute_list_query(connection, sql, val):
         print(f"Error: '{err}'")
 
 conn = create_db_connection("localhost", "root", "1")
-execute_file(conn, "../storage/db_init.sql")
+execute_file(conn, "db_init.sql")

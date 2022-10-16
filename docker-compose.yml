@@ -1,13 +1,15 @@
-version: '3'
+version: "3.9"
 services:
   mysql:
     image: mysql:latest
-    ports:
-      - 8083:3306
+    command: --default-authentication-plugin=mysql_native_password
+
     volumes:
       - ./storage:/docker-entrypoint-initdb.d
+    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: qwerty
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: 1
 
   engine:
     build: engine
@@ -15,4 +17,8 @@ services:
       - mysql
     links:
       - mysql
-    command: ["./wait_for_mysql.sh", "mysql", "3306", "qwerty", "social_net", "python3", "sql.py"]
+    ports:
+      - 5000:5000
+    command: ["./wait_for_mysql.sh", "localhost", "3306", "1", "python3", "sql_db.py"]
+
+
