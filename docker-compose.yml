@@ -18,4 +18,4 @@ services:
       - mysql
     ports:
       - 5000:5000
-    command: ["./wait_for_mysql.sh", "mysql", "3306", "qwerty", "root", "/bin/sh -c flask run"]
+    command: ["./wait_for_mysql.sh", "mysql", "3306", "qwerty", "root", "flask run --host=0.0.0.0"]

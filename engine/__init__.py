@@ -6,7 +6,7 @@ from werkzeug.exceptions import abort
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your secret key'
 
-sql_HOST = "localhost"
+sql_HOST = "mysql"
 sql_USER = "flask_server"
 sql_PWD = "otus"
 sql_DBNAME = "social_net"
@@ -142,15 +142,20 @@ def sresults():
         profile_ids = execute_query(conn, 'SELECT crid FROM profile WHERE fname=\'{}\' and sname=\'{}\''.format(fname, sname))
         friend_ids = execute_query(conn, 'SELECT frid FROM friends WHERE userid={}'.format(user_id))
 
+        user_id = int(user_id)
         if len(profile_ids):
             for prid in profile_ids:
-                execute_query(conn, 'INSERT INTO friends (userid, frid) VALUES ({}, {})'.format(user_id, prid[-1]))
-                execute_query(conn, 'INSERT INTO friends (userid, frid) VALUES ({}, {})'.format(prid[-1], user_id))
+                id = int(prid[-1])
+                if prid[-1] != user_id:
+                    execute_query(conn, 'INSERT INTO friends (userid, frid) VALUES ({}, {})'.format(user_id, prid[-1]))
+                    execute_query(conn, 'INSERT INTO friends (userid, frid) VALUES ({}, {})'.format(prid[-1], user_id))
+                else:
+                    return {"result": "you cannot add yourself"}
 
             conn.close()
             
             data = {}
-
+            data["result"] = []
             for prid in profile_ids:
                 friendData = {}
                 friendData["fname"] = fname
@@ -158,7 +163,7 @@ def sresults():
                 friendData["status"] = "now your friend"
                 if prid in friend_ids:
                     friendData["status"] = "already your friend"
-                data["result"] = friendData
+                data["result"].append(friendData)
             return data
         else:
             return {"result": "cannot find this person"}
