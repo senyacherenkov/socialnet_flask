@@ -14,6 +14,40 @@
 					"basic": [
 						{
 							"key": "password",
+							"value": "2",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "dima",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "localhost:5000",
+					"host": [
+						"localhost"
+					],
+					"port": "5000"
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "sign 2nd",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
 							"value": "1",
 							"type": "string"
 						},
@@ -46,14 +80,17 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:5000?profile=1",
+					"raw": "localhost:5000/profile?id=1",
 					"host": [
 						"localhost"
 					],
 					"port": "5000",
+					"path": [
+						"profile"
+					],
 					"query": [
 						{
-							"key": "profile",
+							"key": "id",
 							"value": "1"
 						}
 					]
@@ -63,6 +100,69 @@
 		},
 		{
 			"name": "registration",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "2",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "dima",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "localhost:5000/registration?fname=dima&sname=x&city=msk&gender=male&age=40&hobbies=parenting",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"registration"
+					],
+					"query": [
+						{
+							"key": "fname",
+							"value": "dima"
+						},
+						{
+							"key": "sname",
+							"value": "x"
+						},
+						{
+							"key": "city",
+							"value": "msk"
+						},
+						{
+							"key": "gender",
+							"value": "male"
+						},
+						{
+							"key": "age",
+							"value": "40"
+						},
+						{
+							"key": "hobbies",
+							"value": "parenting"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "registration 2nd",
 			"request": {
 				"auth": {
 					"type": "basic",
@@ -83,45 +183,106 @@
 				"header": [],
 				"body": {
 					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "fname",
-							"value": "ars",
-							"type": "text"
-						},
-						{
-							"key": "sname",
-							"value": "cherenkov",
-							"type": "text"
-						},
-						{
-							"key": "city",
-							"value": "spb",
-							"type": "text"
-						},
-						{
-							"key": "gender",
-							"value": "male",
-							"type": "text"
-						},
-						{
-							"key": "age",
-							"value": "32",
-							"type": "text"
-						},
-						{
-							"key": "hobby",
-							"value": "learning",
-							"type": "text"
-						}
-					]
+					"urlencoded": []
 				},
 				"url": {
-					"raw": "localhost:5000",
+					"raw": "localhost:5000/registration?fname=ars&sname=cherenkov&city=spb&gender=male&age=32&hobbies=learning",
 					"host": [
 						"localhost"
 					],
-					"port": "5000"
+					"port": "5000",
+					"path": [
+						"registration"
+					],
+					"query": [
+						{
+							"key": "fname",
+							"value": "ars"
+						},
+						{
+							"key": "sname",
+							"value": "cherenkov"
+						},
+						{
+							"key": "city",
+							"value": "spb"
+						},
+						{
+							"key": "gender",
+							"value": "male"
+						},
+						{
+							"key": "age",
+							"value": "32"
+						},
+						{
+							"key": "hobbies",
+							"value": "learning"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "registration 3rd",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "3",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "savva",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "localhost:5000/registration?fname=savva&sname=ku&city=rostov&gender=male&age=81&hobbies=being old",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"registration"
+					],
+					"query": [
+						{
+							"key": "fname",
+							"value": "savva"
+						},
+						{
+							"key": "sname",
+							"value": "ku"
+						},
+						{
+							"key": "city",
+							"value": "rostov"
+						},
+						{
+							"key": "gender",
+							"value": "male"
+						},
+						{
+							"key": "age",
+							"value": "81"
+						},
+						{
+							"key": "hobbies",
+							"value": "being old"
+						}
+					]
 				}
 			},
 			"response": []
@@ -129,26 +290,29 @@
 		{
 			"name": "add friend",
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "localhost:5000?addfriend=true&fname=vasya&sname=pupkin",
+					"raw": "localhost:5000/addFriend?profileId=1&fname=dima&sname=x",
 					"host": [
 						"localhost"
 					],
 					"port": "5000",
+					"path": [
+						"addFriend"
+					],
 					"query": [
 						{
-							"key": "addfriend",
-							"value": "true"
+							"key": "profileId",
+							"value": "1"
 						},
 						{
 							"key": "fname",
-							"value": "vasya"
+							"value": "dima"
 						},
 						{
 							"key": "sname",
-							"value": "pupkin"
+							"value": "x"
 						}
 					]
 				}
