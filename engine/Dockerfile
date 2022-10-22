@@ -9,6 +9,8 @@ RUN apt -y install -y --no-install-recommends \
     libmysqlclient-dev
 RUN pip3 install mysql-connector-python   
 RUN pip3 install flask
+RUN pip install names-dataset
+RUN pip install geonamescache
 
 WORKDIR /opt/social_net
 ADD . /opt/social_net

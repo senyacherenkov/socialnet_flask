@@ -1,5 +1,6 @@
 import mysql.connector
 from mysql.connector import Error
+
 # import pandas as pd
 
 def create_db_connection(host_name, user_name, user_password, db_name = ""):
@@ -52,4 +53,9 @@ def execute_list_query(connection, sql, val):
         print(f"Error: '{err}'")
 
 conn = create_db_connection("mysql", "root", "qwerty")
+conn.close()
+
+
+
+
 #execute_file(conn, "db_init.sql")
