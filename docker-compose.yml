@@ -18,4 +18,9 @@ services:
       - mysql
     ports:
       - 5000:5000
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 4G
     command: ["./wait_for_mysql.sh", "mysql", "3306", "qwerty", "root", "flask run --host=0.0.0.0"]

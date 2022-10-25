@@ -52,7 +52,7 @@ class Profile:
         self.hobbies = random.choice(HOBBIES)
         self.city = random.choice(list(gc.get_cities().keys()))
         self.login = self.fname[0:2] + self.sname[0:2]
-        self.pwd = self.fname[0] + self.sname[0] + (CURRENT_YEAR - self.age)
+        self.pwd = self.fname[0] + self.sname[0] + str(CURRENT_YEAR - self.age)
         
         self.write2DB()
 
