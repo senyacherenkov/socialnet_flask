@@ -31,39 +31,37 @@ class Profile:
         self.login = login
         self.pwd = pwd
 
-    def write2DB(self):
-        conn = create_db_connection(sql_HOST, sql_USER, sql_PWD, sql_DBNAME)           
+    def write2DB(self, conn):
         execute_query(conn, 'INSERT INTO creds (login, pwd) VALUES (\'{}\', \'{}\')'.format(self.login, str(hash(self.pwd))))
         crid = execute_query(conn, 'SELECT id FROM creds WHERE login=\'{}\' and pwd=\'{}\''.format(self.login, str(hash(self.pwd))))
         print("<<<<<<<<<<<< crid is {}".format(crid))
         execute_query(conn, 
         'INSERT INTO profile (crid, fname, sname, age, gender, hob, city) VALUES ({},\'{}\',\'{}\',{},\'{}\',\'{}\',\'{}\')'.format(
             crid[0][0], self.fname, self.sname, self.age, self.gender, self.hobbies, self.city))
-        conn.close()
 
-    def createRandomProfileInDB(self):
+    def generateRandomProfilesInDB(self):
         nd = names_dataset.NameDataset()
         gc = geonamescache.GeonamesCache() 
+        conn = create_db_connection(sql_HOST, sql_USER, sql_PWD, sql_DBNAME)           
     
-        self.fname = random.choice(list(nd.first_names.keys()))
-        self.sname = random.choice(list(nd.last_names.keys()))
-        self.age = random.randint(10, 99)
-        self.gender = random.choice(GENDER)
-        self.hobbies = random.choice(HOBBIES)
-        self.city = random.choice(list(gc.get_cities().keys()))
-        self.login = self.fname[0:2] + self.sname[0:2]
-        self.pwd = self.fname[0] + self.sname[0] + str(CURRENT_YEAR - self.age)
-        
-        self.write2DB()
+        for i in range(1, RECORDS_NUMBER):
+            self.fname = random.choice(list(nd.first_names.keys()))
+            self.sname = random.choice(list(nd.last_names.keys()))
+            self.age = random.randint(10, 99)
+            self.gender = random.choice(GENDER)
+            self.hobbies = random.choice(HOBBIES)
+            self.city = random.choice(list(gc.get_cities().keys()))
+            self.login = self.fname[0:2] + self.sname[0:2]
+            self.pwd = self.fname[0] + self.sname[0] + str(CURRENT_YEAR - self.age)            
+            self.write2DB(conn)
+
+        conn.close()
 
 
-def generateTestData():
-    rp = Profile()
-    for i in range(1, RECORDS_NUMBER):
-        rp.createRandomProfileInDB()
 
 # entry point for generate profiles
-generateTestData()
+pr = Profile()
+pr.generateRandomProfilesInDB()
 
 #def readConfig(filepath):
 
