@@ -5,6 +5,7 @@ from werkzeug.exceptions import abort
 import names_dataset
 import random
 import geonamescache
+import uuid
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your secret key'
@@ -15,10 +16,14 @@ sql_PWD = "otus"
 sql_DBNAME = "social_net"
 
 RECORDS_NUMBER = 1000000
+BATCH_RECORD_SIZE = 50
 CURRENT_YEAR = 2022
+LOWER_AGE_BORDER = 10
+UPPER_AGE_BORDER = 99
 
 HOBBIES = ["learning", "teaching", "football", "walking", "jogging", "diving", "gaming", "art", "cinema", "food", "travel", "cars", "bikes", "devices", "sports"]
 GENDER = ["male", "female"]
+CITIES = ["Moscow", "St.Petersburg", "Tegeran", "Beijin", "Kair", "Stambul", "Minsk", "Erevan", "Magadan", "Chili", "Kabul", "Rostov", "Tomsk", "Samara", "Kazan"]
 
 class Profile:
     def __init__(self, fname = "sara", sname = "conor", age = 33, gender = "female", hobbies = "future saving", city = "Pasadena", login = "sc", pwd="nightmare"):
@@ -31,37 +36,44 @@ class Profile:
         self.login = login
         self.pwd = pwd
 
-    def write2DB(self, conn):
+    def write2DB(self):
+        conn = create_db_connection(sql_HOST, sql_USER, sql_PWD, sql_DBNAME)      
         execute_query(conn, 'INSERT INTO creds (login, pwd) VALUES (\'{}\', \'{}\')'.format(self.login, str(hash(self.pwd))))
         crid = execute_query(conn, 'SELECT id FROM creds WHERE login=\'{}\' and pwd=\'{}\''.format(self.login, str(hash(self.pwd))))
-        print("<<<<<<<<<<<< crid is {}".format(crid))
         execute_query(conn, 
         'INSERT INTO profile (crid, fname, sname, age, gender, hob, city) VALUES ({},\'{}\',\'{}\',{},\'{}\',\'{}\',\'{}\')'.format(
             crid[0][0], self.fname, self.sname, self.age, self.gender, self.hobbies, self.city))
-
-    def generateRandomProfilesInDB(self):
-        nd = names_dataset.NameDataset()
-        gc = geonamescache.GeonamesCache() 
-        conn = create_db_connection(sql_HOST, sql_USER, sql_PWD, sql_DBNAME)           
-    
-        for i in range(1, RECORDS_NUMBER):
-            self.fname = random.choice(list(nd.first_names.keys()))
-            self.sname = random.choice(list(nd.last_names.keys()))
-            self.age = random.randint(10, 99)
-            self.gender = random.choice(GENDER)
-            self.hobbies = random.choice(HOBBIES)
-            self.city = random.choice(list(gc.get_cities().keys()))
-            self.login = self.fname[0:2] + self.sname[0:2]
-            self.pwd = self.fname[0] + self.sname[0] + str(CURRENT_YEAR - self.age)            
-            self.write2DB(conn)
-
         conn.close()
 
+def getNamesDict(filename):
+    mn = []
+    for line in open(filename):
+        mn.append(line[:-2])
+    return mn
 
+def generateProfilesInDb():
+    query = 'INSERT INTO profile (crid, fname, sname, age, gender, hob, city) VALUES '
 
-# entry point for generate profiles
-pr = Profile()
-pr.generateRandomProfilesInDB()
+    fn = getNamesDict('fnames.txt')
+    sn = getNamesDict('snames.txt')
+
+    conn = create_db_connection(sql_HOST, sql_USER, sql_PWD, sql_DBNAME)
+    for i in range(int(RECORDS_NUMBER/BATCH_RECORD_SIZE)):
+        for j in range(BATCH_RECORD_SIZE):
+            fname = random.choice(fn)
+            sname = random.choice(sn)
+            age = random.randint(LOWER_AGE_BORDER, UPPER_AGE_BORDER)
+            gender = random.choice(GENDER)
+            hobbies = random.choice(HOBBIES)
+            city = random.choice(CITIES)
+            query += '({},\'{}\',\'{}\',{},\'{}\',\'{}\',\'{}\')'.format(uuid.uuid4().int>>64, fname, sname, age, gender, hobbies, city)
+            if j != BATCH_RECORD_SIZE - 1:
+                query += ', '
+    
+        execute_query(conn, query)
+        query = 'INSERT INTO profile (crid, fname, sname, age, gender, hob, city) VALUES '
+
+    return query
 
 #def readConfig(filepath):
 
@@ -93,6 +105,14 @@ def exctractCreds(request):
         flash('Login is required!')
         return badResult
     return data
+
+@app.route('/generate', methods=('GET', 'POST'))
+def generate():
+    if request.method == 'POST':
+        generateProfilesInDb()        
+        return {"generate": "done"} 
+    return {"generate": "error"}
+
 
 @app.route('/', methods=('GET', 'POST'))
 def index():
