@@ -242,21 +242,22 @@ def prefixSearch():
         if len(profiles):
             
             data = {}
+            data["result"] = []
             for profile in profiles:
                 friendData = ""
-                friendData.append(profile[0])
-                friendData.append(", ")
-                friendData.append(profile[1])
-                friendData.append(", ")
-                friendData.append(profile[2])
-                friendData.append(", ")
-                friendData.append(profile[3])
-                friendData.append(", ")
-                friendData.append(profile[4])
-                friendData.append(", ")
-                friendData.append(profile[5])
-                friendData.append(", ")
-                friendData.append(profile[6])
+                friendData += str(profile[0])
+                friendData += str(", ")
+                friendData += str(profile[1])
+                friendData += str(", ")
+                friendData += str(profile[2])
+                friendData += str(", ")
+                friendData += str(profile[3])
+                friendData += str(", ")
+                friendData += str(profile[4])
+                friendData += str(", ")
+                friendData += str(profile[5])
+                friendData += str(", ")
+                friendData += str(profile[6])
                 
                 data["result"].append(friendData)
             return data
