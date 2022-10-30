@@ -359,26 +359,22 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "localhost:5000/addFriend?profileId=1&fname=dima&sname=x",
+					"raw": "localhost:5000/prefixSearch?fname=Ave&sname=Che",
 					"host": [
 						"localhost"
 					],
 					"port": "5000",
 					"path": [
-						"addFriend"
+						"prefixSearch"
 					],
 					"query": [
 						{
-							"key": "profileId",
-							"value": "1"
-						},
-						{
 							"key": "fname",
-							"value": "dima"
+							"value": "Ave"
 						},
 						{
 							"key": "sname",
-							"value": "x"
+							"value": "Che"
 						}
 					]
 				}
