@@ -41,6 +41,40 @@
 			"response": []
 		},
 		{
+			"name": "generate test data",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "2",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "dima",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "localhost:5000",
+					"host": [
+						"localhost"
+					],
+					"port": "5000"
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "sign 2nd",
 			"request": {
 				"auth": {
@@ -289,6 +323,38 @@
 		},
 		{
 			"name": "add friend",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000/addFriend?profileId=1&fname=dima&sname=x",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"addFriend"
+					],
+					"query": [
+						{
+							"key": "profileId",
+							"value": "1"
+						},
+						{
+							"key": "fname",
+							"value": "dima"
+						},
+						{
+							"key": "sname",
+							"value": "x"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "search profile with prefix",
 			"request": {
 				"method": "POST",
 				"header": [],
