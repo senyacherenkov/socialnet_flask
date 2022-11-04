@@ -15,6 +15,11 @@ sql_USER = "flask_server"
 sql_PWD = "otus"
 sql_DBNAME = "social_net"
 
+conn = create_db_connection(sql_HOST, sql_USER, sql_PWD, sql_DBNAME)      
+execute_query(conn, 'CREATE INDEX profile_fname_sname ON profile(fname, sname)')
+conn.close()
+
+
 RECORDS_NUMBER = 1000000
 BATCH_RECORD_SIZE = 50
 CURRENT_YEAR = 2022
@@ -235,7 +240,7 @@ def prefixSearch():
     fname = request.args.get('fname')
     sname = request.args.get('sname')
         
-    if request.method == 'POST':
+    if request.method == 'GET':
         conn = create_db_connection(sql_HOST, sql_USER, sql_PWD, sql_DBNAME)
         profiles = execute_query(conn, 'SELECT crid, fname, sname, age, gender, hob, city FROM profile WHERE fname LIKE \'{}%\' and sname LIKE \'{}%\' ORDER BY crid'.format(fname, sname))
 
