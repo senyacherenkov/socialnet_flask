@@ -10,7 +10,7 @@ import uuid
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your secret key'
 
-sql_HOST = "mysql"
+sql_HOST = "172.18.0.2"
 sql_USER = "flask_server"
 sql_PWD = "otus"
 sql_DBNAME = "social_net"
@@ -45,10 +45,12 @@ class Profile:
         conn = create_db_connection(sql_HOST, sql_USER, sql_PWD, sql_DBNAME)      
         execute_query(conn, 'INSERT INTO creds (login, pwd) VALUES (\'{}\', \'{}\')'.format(self.login, str(hash(self.pwd))))
         crid = execute_query(conn, 'SELECT id FROM creds WHERE login=\'{}\' and pwd=\'{}\''.format(self.login, str(hash(self.pwd))))
+        print(">>>>>>> crid {}".format(crid))
         execute_query(conn, 
         'INSERT INTO profile (crid, fname, sname, age, gender, hob, city) VALUES ({},\'{}\',\'{}\',{},\'{}\',\'{}\',\'{}\')'.format(
             crid[0][0], self.fname, self.sname, self.age, self.gender, self.hobbies, self.city))
         conn.close()
+        return crid[0][0]
 
 def getNamesDict(filename):
     mn = []
@@ -185,16 +187,16 @@ def registration():
         if len(creds) > 1:
             userProfile = Profile(request.args.get('fname'), 
                                 request.args.get('sname'), 
-                                request.args.get('gender'), 
                                 request.args.get('age'), 
+                                request.args.get('gender'), 
                                 request.args.get('hobbies'), 
                                 request.args.get('city'),
                                 creds['username'],
                                 creds['token'])
        
-            userProfile.write2DB()
+            crid = userProfile.write2DB()
 
-            return redirect(url_for('profile', id = crid[0][0]))
+            return redirect(url_for('profile', id = crid))
     return {"result": "none"}
 
 @app.route('/addFriend', methods=('GET', 'POST'))

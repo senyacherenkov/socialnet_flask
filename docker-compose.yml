@@ -1,6 +1,8 @@
 version: "3.2"
 services:
-  mysql:
+  mysql_alpha:
+    container_name: alpha    
+    hostname: alpha 
     image: mysql:latest
     ports:
       - 8083:3306
@@ -9,13 +11,26 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: qwerty
+  
+  mysql_beta:
+    container_name: beta
+    hostname: beta
+    image: mysql:latest
+    ports:
+      - 8082:3306
+    volumes:
+      - ./storage:/docker-entrypoint-initdb.d
+    restart: always
+
+    environment:
+      MYSQL_ROOT_PASSWORD: qwerty
 
   engine:
     build: engine
     depends_on:
-      - mysql
+      - mysql_alpha
     links:
-      - mysql
+      - mysql_alpha
     ports:
       - 5000:5000
     deploy:
@@ -23,4 +38,6 @@ services:
         limits:
           cpus: '1'
           memory: 4G
-    command: ["./wait_for_mysql.sh", "mysql", "3306", "qwerty", "root", "flask run --host=0.0.0.0"]
+    environment:
+      PYTHONUNBUFFERED: 1
+    command: ["./wait_for_mysql.sh", "mysql_alpha", "3306", "qwerty", "root", "flask run --host=0.0.0.0"]

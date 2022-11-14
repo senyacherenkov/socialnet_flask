@@ -52,7 +52,7 @@ def execute_list_query(connection, sql, val):
     except Error as err:
         print(f"Error: '{err}'")
 
-conn = create_db_connection("mysql", "root", "qwerty")
+conn = create_db_connection("172.18.0.2", "root", "qwerty")
 conn.close()
 
 
