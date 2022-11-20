@@ -1,6 +1,6 @@
 # socialnet_flask
 ## Инструкция по запуску:
-1. В директории проекта выполняете
+1. В директории проекта выполняете:
   * ``sudo docker-compose build``
   * ``sudo docker-compose up``
 
