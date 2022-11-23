@@ -1,36 +1,78 @@
 version: "3.2"
 services:
-  mysql_alpha:
-    container_name: alpha    
-    hostname: alpha 
-    image: mysql:latest
-    ports:
-      - 8083:3306
+
+  master:
+    image: mysql/mysql-server:8.0
+    container_name: master
+    hostname: master
     volumes:
       - ./storage:/docker-entrypoint-initdb.d
+    ports:
+      - "3307:3306"
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: qwerty
+    command: ["mysqld",
+      "--server-id=1",
+      "--log-bin=mysql-bin-1.log",
+      "--enforce-gtid-consistency=ON",
+      "--log-slave-updates=ON",
+      "--gtid-mode=ON",
+      "--transaction-write-set-extraction=XXHASH64",
+      "--binlog-checksum=NONE",
+      "--master-info-repository=TABLE",
+      "--relay-log-info-repository=TABLE",
+      "--plugin-load=group_replication.so",
+      "--relay-log-recovery=ON",
+      "--loose-group-replication-start-on-boot=OFF",
+      "--loose-group-replication-group-name=aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+      "--loose-group-replication-local-address=master:6606",
+      "--loose-group-replication-group-seeds=master:6606,slave1:6606",
+      "--loose-group-replication-single-primary-mode=ON",
+      "--loose-group-replication-enforce-update-everywhere-checks=OFF"]
+    # healthcheck:
+    #   test: "mysqladmin ping -u root -p$${MYSQL_ROOT_PASSWORD}"
+    #   interval: 2s
+    #   retries: 20
+
+  slave1:
+    image: mysql/mysql-server:8.0
+    container_name: slave1
+    hostname: slave1
+    ports:
+      - "3308:3306"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: qwerty
+    command: ["mysqld",
+      "--server-id=1",
+      "--log-bin=mysql-bin-1.log",
+      "--enforce-gtid-consistency=ON",
+      "--log-slave-updates=ON",
+      "--gtid-mode=ON",
+      "--transaction-write-set-extraction=XXHASH64",
+      "--binlog-checksum=NONE",
+      "--master-info-repository=TABLE",
+      "--relay-log-info-repository=TABLE",
+      "--plugin-load=group_replication.so",
+      "--relay-log-recovery=ON",
+      "--loose-group-replication-start-on-boot=OFF",
+      "--loose-group-replication-group-name=aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+      "--loose-group-replication-local-address=node2:6606",
+      "--loose-group-replication-group-seeds=master:6606,slave1:6606",
+      "--loose-group-replication-single-primary-mode=ON",
+      "--loose-group-replication-enforce-update-everywhere-checks=OFF"]
+    # healthcheck:
+    #   test: "mysqladmin ping -u root -p$${MYSQL_ROOT_PASSWORD}"
+    #   interval: 2s
+    #   retries: 20
   
-  mysql_beta:
-    container_name: beta
-    hostname: beta
-    image: mysql:latest
-    ports:
-      - 8082:3306
-    volumes:
-      - ./storage:/docker-entrypoint-initdb.d
-    restart: always
-
-    environment:
-      MYSQL_ROOT_PASSWORD: qwerty
-
   engine:
     build: engine
     depends_on:
-      - mysql_alpha
+      - master
     links:
-      - mysql_alpha
+      - master
     ports:
       - 5000:5000
     deploy:
@@ -40,4 +82,4 @@ services:
           memory: 4G
     environment:
       PYTHONUNBUFFERED: 1
-    command: ["./wait_for_mysql.sh", "mysql_alpha", "3306", "qwerty", "root", "flask run --host=0.0.0.0"]
+    command: ["./wait_for_mysql.sh", "master", "3306", "qwerty", "root", "flask run --host=0.0.0.0"]
